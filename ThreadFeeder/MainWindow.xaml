@@ -1,0 +1,80 @@
+﻿<mah:MetroWindow x:Class="ThreadFeeder.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ThreadFeeder"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        Title="Thread Feeder"
+        mc:Ignorable="d"
+        Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Margin="5" Background="{StaticResource MahApps.Brushes.Gray9}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <ListBox Grid.Row="0" Margin="5" ItemsSource="{Binding TaskList}"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Name="btnGen" Grid.Column="2" HorizontalAlignment="Stretch" Content="Generate" BorderThickness="0" Style="{StaticResource MahApps.Styles.Button.MetroAccentSquare}" Margin="5,2" Click="btnGen_Click"/>
+                <Button Grid.Column="3" HorizontalAlignment="Stretch" Content="Clear" BorderThickness="0" Style="{StaticResource MahApps.Styles.Button.MetroAccentSquare}" Margin="5,2" Click="btnClear_Click"/>
+                <Slider x:Name="slider" Grid.Column="0" HorizontalAlignment="Stretch" ValueChanged="slider_ValueChanged" Style="{StaticResource MahApps.Styles.Slider.Flat}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Minimum="1" Maximum="500000" IsSnapToTickEnabled="True" TickFrequency="1" Margin="5,2"/>
+                <mah:NumericUpDown Name="numeric" Grid.Column="1" Value="1" MinWidth="100" ValueChanged="NumericUpDown_ValueChanged" Margin="5,2"></mah:NumericUpDown>
+            </Grid>
+            <Label Grid.Row="2" Content="{Binding TaskCount}" VerticalContentAlignment="Stretch" HorizontalAlignment="Right"/>
+        </Grid>
+        <Grid Grid.Column="1"  Margin="5" Background="{StaticResource MahApps.Brushes.Gray9}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <ListBox Grid.Row="0" Margin="5" ItemsSource="{Binding ThreadList}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="local:ActionTaker">
+                        <TextBlock Text="{Binding output}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Name="btnGenThreads" Grid.Column="2" HorizontalAlignment="Stretch" Content="Generate" BorderThickness="0" Style="{StaticResource MahApps.Styles.Button.MetroAccentSquare}" Margin="5,2" Click="btnGenThreads_Click"/>
+                <ToggleButton Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsChecked="{Binding IsRunning}" Margin="5,2" BorderThickness="0" Click="ToggleButton_Click">
+                    <ToggleButton.Style>
+                        <Style BasedOn="{StaticResource MahApps.Styles.Button.MetroAccentSquare}" TargetType="{x:Type ToggleButton}">
+                            <Setter Property="Content" Value="{iconPacks:Material Kind=Play}" />
+                            <Setter Property="ToolTip" Value="Run performance analysis" />
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="true">
+                                    <Setter Property="Content" Value="{iconPacks:Material Kind=Pause}" />
+                                    <Setter Property="ToolTip" Value="Stop performance analysis" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+                <Slider x:Name="sliderThreads" Grid.Column="0" HorizontalAlignment="Stretch" ValueChanged="sliderThread_ValueChanged" Style="{StaticResource MahApps.Styles.Slider.Flat}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Minimum="1" Maximum="500" IsSnapToTickEnabled="True" TickFrequency="1" Margin="5,2"/>
+                <mah:NumericUpDown Name="numericThreads" Grid.Column="1" Value="1" MinWidth="100" ValueChanged="NumericUpDownThread_ValueChanged" Margin="5,2"></mah:NumericUpDown>
+            </Grid>
+            <Label Grid.Row="2" Content="{Binding ThreadCount}" VerticalContentAlignment="Stretch" HorizontalAlignment="Right"/>
+            <Label Grid.Row="2" Content="{Binding TasksPerSec}" Name="tPerSec"  VerticalContentAlignment="Stretch" HorizontalAlignment="Left"/>
+        </Grid>
+    </Grid>
+</mah:MetroWindow>
